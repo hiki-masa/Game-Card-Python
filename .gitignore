@@ -1,0 +1,7 @@
+*.sln
+*.pyproj
+*.png
+
+
+.vs/
+Card Game/__pycache__/
