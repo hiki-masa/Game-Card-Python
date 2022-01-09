@@ -118,9 +118,15 @@ class TRUMP():
     def Shuffle(self):
         random.shuffle(self.card_list)
 
+    # ドロー可能判定
+    def can_drow(self):
+        if len(self.card_list) == 0:
+            return False
+        else:
+            return True
     # ドロー
     def drow(self):
-        if len(self.card_list) == 0:
+        if not self.can_drow():
             print("can't drow card")
         else:
             self.trush_list.append(self.card_list.pop())
