@@ -129,5 +129,10 @@ class TRUMP():
         if not self.can_drow():
             print("can't drow card")
         else:
+            # 引いたカードは trush_list に保存
             self.trush_list.append(self.card_list.pop())
             return self.trush_list[-1]
+
+    # 捨てたカードリストを解放
+    def del_trush_list(self):
+        self.trush_list.clear()
