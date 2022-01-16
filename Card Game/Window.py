@@ -10,5 +10,5 @@ class WINDOW(tk.Frame):
         master.minsize(_width, _height)
         master.title("Window")
         # キャンバスの設定
-        self.canvas = tk.Canvas(master, width = _width, height = _height, bg = "green")
-        self.canvas.pack()
+        self.canvas = tk.Canvas(master, width = _width, height = _height, bg = "green", bd = -2)
+        self.canvas.place(x = 0, y = 0)
