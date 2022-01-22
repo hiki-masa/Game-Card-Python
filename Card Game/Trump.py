@@ -99,7 +99,7 @@ class CARD():
 class TRUMP():
     # コンストラクタ
     def __init__(self):
-        self.trush_list = []
+        self.drow_list = []
         self.card_list = []
         for s in range(len(SYMBOL_LIST)):
             for n in range(len(NUMBER_LIST)):
@@ -129,10 +129,10 @@ class TRUMP():
         if not self.can_drow():
             print("can't drow card")
         else:
-            # 引いたカードは trush_list に保存
-            self.trush_list.append(self.card_list.pop())
-            return self.trush_list[-1]
+            # 引いたカードは drow_list に保存
+            self.drow_list.append(self.card_list.pop())
+            return self.drow_list[-1]
 
     # 捨てたカードリストを解放
-    def del_trush_list(self):
-        self.trush_list.clear()
+    def del_drow_list(self):
+        self.drow_list.clear()
