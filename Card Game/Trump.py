@@ -99,7 +99,7 @@ class CARD():
 class TRUMP():
     # コンストラクタ
     def __init__(self):
-        self.drow_list = []
+        self.draw_list = []
         self.card_list = []
         for s in range(len(SYMBOL_LIST)):
             for n in range(len(NUMBER_LIST)):
@@ -119,20 +119,20 @@ class TRUMP():
         random.shuffle(self.card_list)
 
     # ドロー可能判定
-    def can_drow(self):
+    def can_draw(self):
         if len(self.card_list) == 0:
             return False
         else:
             return True
     # ドロー
-    def drow(self):
-        if not self.can_drow():
-            print("can't drow card")
+    def draw(self):
+        if not self.can_draw():
+            print("can't draw card")
         else:
-            # 引いたカードは drow_list に保存
-            self.drow_list.append(self.card_list.pop())
-            return self.drow_list[-1]
+            # 引いたカードは draw_list に保存
+            self.draw_list.append(self.card_list.pop())
+            return self.draw_list[-1]
 
     # 捨てたカードリストを解放
-    def del_drow_list(self):
-        self.drow_list.clear()
+    def del_draw_list(self):
+        self.draw_list.clear()
