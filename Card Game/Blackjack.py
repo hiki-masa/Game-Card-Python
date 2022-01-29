@@ -48,7 +48,7 @@ class BLACKJACK():
 
     def game_player_turn(self, player):
         player.draw(self.trump)
-        player.info["text"] = player.name + "の合計：" + str(player.sum_card_number())
+        player.info["text"] = player.name + f"の合計：{player.sum_card_number()}"
         player.draw_list[-1].display_surface_image(Trump.CARD.width * (len(player.draw_list) - 1), Trump.CARD.height * player.id, self.app.canvas)
         self.button_bool_var.set(not self.button_bool_var.get())
 
@@ -57,17 +57,17 @@ class BLACKJACK():
         #self.player2.info.destroy()
         self.draw_button.destroy()
         self.not_draw_button.destroy()
-        if self.player1.sum_card_number() < BLACKJACK.upper_limit and self.player2.sum_card_number() < BLACKJACK.upper_limit:
+        if self.player1.sum_card_number() <= BLACKJACK.upper_limit and self.player2.sum_card_number() <= BLACKJACK.upper_limit:
             if self.player1.sum_card_number() == self.player2.sum_card_number():
                 print("DRAW")
             elif self.player1.sum_card_number() > self.player2.sum_card_number():
                 print(self.player1.name + " WIN")
             else:
-                print(self.player2.name + "WIN")
+                print(self.player2.name + " WIN")
         elif self.player1.sum_card_number() > BLACKJACK.upper_limit and self.player2.sum_card_number() > BLACKJACK.upper_limit:
             print("DRAW")
         elif self.player1.sum_card_number() > BLACKJACK.upper_limit:
-            print(self.player2.name + "WIN")
+            print(self.player2.name + " WIN")
         elif self.player2.sum_card_number() > BLACKJACK.upper_limit:
-            print(self.player1.name + "WIN")
+            print(self.player1.name + " WIN")
             
