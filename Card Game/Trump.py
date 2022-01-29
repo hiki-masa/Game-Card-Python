@@ -1,4 +1,5 @@
 from enum import Enum
+import os
 import random
 import tkinter as tk
 from PIL import Image, ImageTk
@@ -65,22 +66,31 @@ class NUMBER_LIST(Enum):
 
 
 # カードクラス
-card_width = 135
-card_height = 200
 class CARD():
+    width = 135
+    height = 200
     # コンストラクタ
     def __init__(self, _symbol_list, _number_list):
         # シンボル
         self.symbol_list = _symbol_list
         # ナンバー
         self.number_list = _number_list
-        # カード画像
-        self.surface_image = ImageTk.PhotoImage(Image.open("trump/card_" + self.symbol_list.symbol_name + "_" + self.number_list.number_tag + ".png").resize((card_width, card_height)))
-        self.back_image = ImageTk.PhotoImage(Image.open("trump/card_back.png").resize((card_width, card_height)))
+        # カード画像（表画像の読み込み）
+        self.surface_image = self.read_file_image("trump/card_" + self.symbol_list.symbol_name + "_" + self.number_list.number_tag + ".png")
+        # カード画像（裏画像の読み込み）
+        self.back_image = self.read_file_image("trump/card_back.png")
         
     # デコンストラクタ
     def __del__(self):
         print("memory-release : " + self.symbol_list.symbol_name + "-" + self.number_list.number_tag)
+
+    # 指定されたファイル画像の読み込み
+    def read_file_image(self, _file_name):
+        if os.path.exists(_file_name):
+            return ImageTk.PhotoImage(Image.open(_file_name).resize((CARD.width, CARD.height)))
+        else:
+            print("There isn't the file : " + _file_name)
+            exit()
 
     # 表示
     def display(self):

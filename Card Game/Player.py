@@ -1,12 +1,16 @@
 import tkinter as tk
 from Trump import CARD
+import Blackjack
 
 class PLAYER():
+    player_id = 0
     # コンストラクタ
-    def __init__(self, _id, _name):
-        self.id = _id
+    def __init__(self, _name):
+        self.id = PLAYER.player_id
+        PLAYER.player_id += 1
         self.draw_list = []
         self.name = _name
+        self.judg_draw = True
         self.info = tk.Label(text = "", bg = "green")
 
     # ドロー
@@ -21,22 +25,21 @@ class PLAYER():
     def sum_card_number(self):
         sum = 0
         for i in range(len(self.draw_list)):
-            sum = sum + self.draw_list[i].number_list.number
+            sum += self.draw_list[i].number_list.number
         return sum
 
 
 class COMPUTER(PLAYER):
     # コンストラクタ
-    def __init__(self, _id, _name):
-        super().__init__(_id, _name)
-        self.judg_draw = True
+    def __init__(self, _name):
+        super().__init__(_name)
 
     # カードを引くかどうかの判定
     def judg_draw_card(self):
         if self.judg_draw == False:
             return False
         else:
-            if self.sum_card_number() >= 21:
+            if self.sum_card_number() >= Blackjack.BLACKJACK.upper_limit:
                 self.judg_draw = False
                 return False
             else:
@@ -44,9 +47,8 @@ class COMPUTER(PLAYER):
 
 class HUMAN(PLAYER):
     # コンストラクタ
-    def __init__(self, _id, _name):
-        super().__init__(_id, _name)
-        self.judg_draw = True
+    def __init__(self, _name):
+        super().__init__(_name)
 
     def update_judg_draw_card(self, button_bool_var):
         self.judg_draw = False
