@@ -30,28 +30,27 @@ class BLACKJACK():
         self.not_draw_button = tk.Button(text = "don't draw", command = lambda:self.player2.update_judg_draw_card(self.button_bool_var))
         self.not_draw_button.place(x = Trump.CARD.width * 7 * 3 / 4, y = Trump.CARD.height * 2, width = Trump.CARD.width * 7 / 4, height = 100)
         self.button_bool_var = tk.BooleanVar(value = False)
-        # ゲームスタート
-        self.game()
-        print("Game finish")
-        self.result()
 
+    # Game all-over
     def game(self):
         self.game_player_turn(self.player1)
         self.game_player_turn(self.player2)
         while (self.player1.judg_draw or self.player2.judg_draw):
             # player1
-            if self.player1.judg_draw_card():
+            if self.player1.judg_draw_card(self.trump):
                 self.game_player_turn(self.player1)
             # player2
             if self.player2.judg_draw:
                 self.draw_button.wait_variable(self.button_bool_var)
 
+    # Game processing in one-turn 
     def game_player_turn(self, player):
         player.draw(self.trump)
         player.info["text"] = player.name + f"の合計：{player.sum_card_number()}"
         player.draw_list[-1].display_surface_image(Trump.CARD.width * (len(player.draw_list) - 1), Trump.CARD.height * player.id, self.app.canvas)
         self.button_bool_var.set(not self.button_bool_var.get())
 
+    # Game result
     def result(self):
         #self.player1.info.destroy()
         #self.player2.info.destroy()
