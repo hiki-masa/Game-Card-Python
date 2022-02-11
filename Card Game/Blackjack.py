@@ -33,7 +33,10 @@ class BLACKJACK():
 
     # Game all-over
     def game(self):
+        # player1
         self.game_player_turn(self.player1)
+        self.player1.draw_list[-1].display_back_image(0, 0, self.app.canvas)
+        # player2
         self.game_player_turn(self.player2)
         while (self.player1.judg_draw or self.player2.judg_draw):
             # player1
@@ -46,16 +49,18 @@ class BLACKJACK():
     # Game processing in one-turn 
     def game_player_turn(self, player):
         player.draw(self.trump)
-        player.info["text"] = player.name + f"の合計：{player.sum_card_number()}"
+        if id(player) == id(self.player2):
+            player.info["text"] = f"{player.name}の合計：{player.sum_card_number()}"
         player.draw_list[-1].display_surface_image(Trump.CARD.width * (len(player.draw_list) - 1), Trump.CARD.height * player.id, self.app.canvas)
         self.button_bool_var.set(not self.button_bool_var.get())
 
     # Game result
     def result(self):
-        #self.player1.info.destroy()
-        #self.player2.info.destroy()
+        self.player1.info["text"] = f"{self.player1.name}の合計：{self.player1.sum_card_number()}"
+        self.player1.draw_list[0].display_surface_image(0, 0, self.app.canvas)
         self.draw_button.destroy()
         self.not_draw_button.destroy()
+        # Result of Victory or Defeat
         if self.player1.sum_card_number() <= BLACKJACK.upper_limit and self.player2.sum_card_number() <= BLACKJACK.upper_limit:
             if self.player1.sum_card_number() == self.player2.sum_card_number():
                 print("DRAW")
@@ -69,4 +74,4 @@ class BLACKJACK():
             print(self.player2.name + " WIN")
         elif self.player2.sum_card_number() > BLACKJACK.upper_limit:
             print(self.player1.name + " WIN")
-            
+        sleep(3)

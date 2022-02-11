@@ -82,11 +82,13 @@ class CARD():
         
     # デコンストラクタ
     def __del__(self):
-        print("memory-release : " + self.symbol_list.symbol_name + "-" + self.number_list.number_tag)
+        #print("memory-release : " + self.symbol_list.symbol_name + "-" + self.number_list.number_tag)
+        pass
 
     # 指定されたファイル画像の読み込み
     def read_file_image(self, _file_name):
         if os.path.exists(_file_name):
+            #print("Read the file : " + _file_name)
             return ImageTk.PhotoImage(Image.open(_file_name).resize((CARD.width, CARD.height)))
         else:
             print("There isn't the file : " + _file_name)

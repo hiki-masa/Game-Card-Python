@@ -13,6 +13,10 @@ class PLAYER():
         self.judg_draw = True
         self.info = tk.Label(text = "", bg = "green")
 
+    # デストラクタ
+    def __del__(self):
+        PLAYER.player_id -= 1
+
     # ドロー
     def draw(self, trump):
         draw_card = trump.draw()
@@ -33,6 +37,7 @@ class COMPUTER(PLAYER):
     # コンストラクタ
     def __init__(self, _name):
         super().__init__(_name)
+        self.info = tk.Label(text = f"{self.name}の合計：???", bg = "green")
 
     # カードを引くかどうかの判定
     def judg_draw_card(self, _trump):
