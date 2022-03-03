@@ -7,11 +7,10 @@ def main():
         blackjack = Blackjack.BLACKJACK(master = win)
         # ゲームスタート
         blackjack.game()
-        print("Game finish")
         blackjack.result()
         del blackjack
     
-    blackjack.app.mainloop()
+    #blackjack.app.mainloop()
 
 
 if __name__ == "__main__":

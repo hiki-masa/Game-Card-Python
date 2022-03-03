@@ -1,5 +1,4 @@
 import tkinter as tk
-from time import sleep
 from Window import WINDOW
 import Trump
 from Player import COMPUTER, HUMAN
@@ -29,7 +28,7 @@ class BLACKJACK():
         self.draw_button.place(x = Trump.CARD.width * 7 / 2, y = Trump.CARD.height * 2, width = Trump.CARD.width * 7 / 4, height = 100)
         self.not_draw_button = tk.Button(text = "don't draw", command = lambda:self.player2.update_judg_draw_card(self.button_bool_var))
         self.not_draw_button.place(x = Trump.CARD.width * 7 * 3 / 4, y = Trump.CARD.height * 2, width = Trump.CARD.width * 7 / 4, height = 100)
-        self.button_bool_var = tk.BooleanVar(value = False)
+        self.button_bool_var = tk.BooleanVar(False)
 
     # Game all-over
     def game(self):
@@ -38,6 +37,7 @@ class BLACKJACK():
         self.player1.draw_list[-1].display_back_image(0, 0, self.app.canvas)
         # player2
         self.game_player_turn(self.player2)
+        # 2枚目以降
         while (self.player1.judg_draw or self.player2.judg_draw):
             # player1
             if self.player1.judg_draw_card(self.trump):
@@ -54,24 +54,47 @@ class BLACKJACK():
         player.draw_list[-1].display_surface_image(Trump.CARD.width * (len(player.draw_list) - 1), Trump.CARD.height * player.id, self.app.canvas)
         self.button_bool_var.set(not self.button_bool_var.get())
 
-    # Game result
+    # リザルト画面の表示
     def result(self):
-        self.player1.info["text"] = f"{self.player1.name}の合計：{self.player1.sum_card_number()}"
-        self.player1.draw_list[0].display_surface_image(0, 0, self.app.canvas)
+        # 不要なボタンの削除
         self.draw_button.destroy()
         self.not_draw_button.destroy()
-        # Result of Victory or Defeat
+        # ボタンの作成
+        push_flag = tk.BooleanVar(False)
+        next_game_button = tk.Button(text = "Next Game", command = lambda:update_BooleanVar(push_flag))
+        next_game_button.place(x = Trump.CARD.width * 7 / 2, y = Trump.CARD.height * 2, width = Trump.CARD.width * 7 / 4, height = 100)
+        exit_game_button = tk.Button(text = "Exit", state = "disable")
+        exit_game_button.place(x = Trump.CARD.width * 7 * 3 / 4, y = Trump.CARD.height * 2, width = Trump.CARD.width * 7 / 4, height = 100)
+        # 勝敗の判定
+        result = tk.StringVar()
+        result_label = tk.Label(textvariable = result, font = ('ゴシック', 40), bg = 'green')
+        result_label.pack(expand = True)
         if self.player1.sum_card_number() <= BLACKJACK.upper_limit and self.player2.sum_card_number() <= BLACKJACK.upper_limit:
             if self.player1.sum_card_number() == self.player2.sum_card_number():
-                print("DRAW")
+                result.set("DRAW")
             elif self.player1.sum_card_number() > self.player2.sum_card_number():
-                print(self.player1.name + " WIN")
+                result.set(self.player1.name + " WIN")
             else:
-                print(self.player2.name + " WIN")
+                result.set(self.player2.name + " WIN")
         elif self.player1.sum_card_number() > BLACKJACK.upper_limit and self.player2.sum_card_number() > BLACKJACK.upper_limit:
-            print("DRAW")
+            result.set("DRAW")
         elif self.player1.sum_card_number() > BLACKJACK.upper_limit:
-            print(self.player2.name + " WIN")
+            result.set(self.player2.name + " WIN")
         elif self.player2.sum_card_number() > BLACKJACK.upper_limit:
-            print(self.player1.name + " WIN")
-        sleep(3)
+            result.set(self.player1.name + " WIN")
+        # Player1 の結果の表示
+        self.player1.info["text"] = f"{self.player1.name}の合計：{self.player1.sum_card_number()}"
+        self.player1.draw_list[0].display_surface_image(0, 0, self.app.canvas)
+        
+        # ボタンが押されるまで処理の停止
+        next_game_button.wait_variable(push_flag)
+        result_label.destroy()
+        next_game_button.destroy()
+        exit_game_button.destroy()
+
+# tk.BooleanVar の更新
+def update_BooleanVar(_boolean):
+    if type(_boolean) == tk.BooleanVar:
+        _boolean.set(not _boolean.get())
+    else:
+        exit()

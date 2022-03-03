@@ -63,4 +63,4 @@ class HUMAN(PLAYER):
 
     def update_judg_draw_card(self, button_bool_var):
         self.judg_draw = False
-        button_bool_var.set(not button_bool_var.get())
+        Blackjack.update_BooleanVar(button_bool_var)
